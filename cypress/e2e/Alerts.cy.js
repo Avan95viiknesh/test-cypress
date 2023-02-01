@@ -1,4 +1,5 @@
 /// <reference types = "Cypress" />
+
 describe("Alerts", () => {
   // 1) javascript alert : it will have some text and an 'OK' button
   it("Js alert", () => {
@@ -43,43 +44,35 @@ describe("Alerts", () => {
   it("Js Prompt alert", () => {
     cy.visit("https://the-internet.herokuapp.com/javascript_alerts");
 
-    cy.window().then((win) => { // in this method it will acess before alert window open
+    cy.window().then((win) => {
+      // in this method it will acess before alert window open
       cy.stub(win, "prompt").returns("welcome");
     });
 
     cy.get("button[onclick='jsPrompt()']").click();
-    
-    // cypress will close automatically promptrd alert using 'OK button by default  
 
-   // cy.on("window:prompt", () => false); // cypress closes alert window using cancel button by default it is true
-    cy.get("#result").should('have.text', 'You entered: welcome')
+    // cypress will close automatically promptrd alert using 'OK button by default
+
+    // cy.on("window:prompt", () => false); // cypress closes alert window using cancel button by default it is true
+    cy.get("#result").should("have.text", "You entered: welcome");
   });
 
+  // 4) Authenticated Alert
 
-// 4) Authenticated Alert
-
-it.only("Authenticated alert", () => {
-
+  it.only("Authenticated alert", () => {
     //approach1
-    // cy.visit("https://the-internet.herokuapp.com/basic_auth", {auth: 
+    // cy.visit("https://the-internet.herokuapp.com/basic_auth", {auth:
     //                                                             {
-    //                                                               username: "admin", 
+    //                                                               username: "admin",
     //                                                               password: "admin"
     //                                                             }
     //                                                         });
 
-    // cy.get("div[class='example'] p").should("have.contain", "Congratulations")  
-    
-    
+    // cy.get("div[class='example'] p").should("have.contain", "Congratulations")
+
     //approach2
 
-    cy.visit("https://admin:admin@the-internet.herokuapp.com/basic_auth")
-    cy.get("div[class='example'] p").should("have.contain", "Congratulations")  
-
-
-})
-
-
-
-
+    cy.visit("https://admin:admin@the-internet.herokuapp.com/basic_auth");
+    cy.get("div[class='example'] p").should("have.contain", "Congratulations");
+  });
 });
